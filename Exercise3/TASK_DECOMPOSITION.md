@@ -173,3 +173,23 @@ Contract, transition table, invariants and test list written and reviewed. No co
 # T-08: Final Verification & Submission
 
 - [ ] All acceptance criteria, Git history, Exercise 1/2 still pass, docs updated.
+
+---
+
+# Verification log (T-02 – T-08)
+
+- `src/feed-loader.js`: `loadFeed()` with F6 (no request while LOADING) and F7 (`latestRequestId`).
+  `npm test` → 68 passed, 0 failed. Mutation check: removing either `requestId` check, the
+  LOADING guard, or the fixed error message each makes a test fail.
+- Key finding: stale results arriving *after* the new request settled are already blocked by F4;
+  the dangerous case is a stale result arriving while the new request is still LOADING (tests added).
+- `src/data-feed.js`: skeleton (LOADING, `aria-hidden`, opacity pulse, reduced-motion off),
+  `<ul>` of `<article>` (SUCCESS, empty message), `role="alert"` + `Retry Connection` (ERROR),
+  one `#feed-action` button whose focus survives every re-render (`aria-disabled` while loading).
+- Headless Chrome `http://localhost:5173/tests/` → events 12 passed, data-feed 31 passed:
+  one view per state, focus kept, XSS title rendered as text with no `<img>`, no "503" in UI,
+  Retry fail → ERROR, Retry success → SUCCESS, empty → SUCCESS.
+- 375px (iframe at true width): no horizontal overflow in IDLE, SUCCESS, ERROR. 768px: 2-column grid.
+- `vite build` succeeds.
+- Not measured yet (do by hand): Lighthouse, screen reader announcement of the re-created
+  `role="status"` region (full-subtree replacement may skip it; `role="alert"` is announced).
