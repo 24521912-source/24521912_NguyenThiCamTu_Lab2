@@ -111,13 +111,18 @@ Contract and invariants written and reviewed. No code yet.
 
 # T-02: Implement stateStore and resetCursor Engine
 
-- [ ] Create `src/reactive-engine.js` with `stateStore`, `cursor`, `triggerRender`.
-- [ ] Implement `resetCursor()` and `setRenderer()`.
-- [ ] Tests for `resetCursor()` and `setRenderer()`.
+- [x] Create `src/reactive-engine.js` with `stateStore`, `cursor`, `triggerRender`.
+- [x] Implement `resetCursor()` and `setRenderer()`.
+- [x] Tests: exports exist, `setRenderer` accepts functions and rejects non-functions,
+      `stateStore` / `cursor` are not exported.
+- Note: what `resetCursor()` actually does (next pass reads slot 0) can only be observed
+  through `useState`, so that test is part of T-03.
+
+**Verification:** `npm test` → 27 passed, 0 failed (5 new T-02 tests + 22 Exercise 1 tests).
 
 **Git milestone 1:** `feat(state): implement stateStore and resetCursor engine`
 
-**Status:** NOT STARTED
+**Status:** DONE
 
 ---
 
