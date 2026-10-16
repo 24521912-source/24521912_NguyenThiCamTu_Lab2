@@ -172,16 +172,31 @@ Contract and invariants written and reviewed. No code yet.
 
 # T-05: Integrate Rendering and Assemble Task Manager UI
 
-- [ ] `renderApp(Component, root)`: reset cursor, run component, check hook count (I8),
-      mount with `replaceChildren`, restore focus.
-- [ ] `TaskApp()` with `tasks` and `filter` state, `Tasks: N`, `Add Task`, filter toggles with
-      `aria-pressed`, toggle done per task.
-- [ ] `src/main.js` bootstrap and `src/style.css`.
-- [ ] Browser tests: initial tasks and count, Add Task, filters, toggle, repeated interactions, XSS.
+- [x] `renderApp(Component, root)` in `src/reactive-engine.js`: empties the store (one app at a
+      time), resets the cursor, runs the component, checks hook count (I8), mounts with
+      `replaceChildren`, restores focus by element id (falls back to the first button if the
+      focused element was removed, e.g. a task filtered out).
+- [x] `TaskApp()` in `src/task-app.js` (separate file so the browser tests can import it
+      without mounting the app): `tasks` and `filter` state, `Tasks: N`, `Add Task`,
+      `ALL` / `ACTIVE` / `COMPLETED` toggles with `aria-pressed`, `Done` toggle per task,
+      empty message when no task matches. Updates are immutable (spread / `map`).
+- [x] `src/main.js`: `setupEventDelegation(root)` once, then `renderApp(TaskApp, root)`.
+- [x] `src/style.css`: mobile-first, CSS variables, 44px buttons, `:focus-visible`, dark mode.
+- [x] Browser tests (`tests/app.browser.js`, 19 checks): initial tasks and count, ALL pressed,
+      Add Task, toggle done, ACTIVE / COMPLETED / ALL, empty message, `aria-pressed` follows
+      filter, 3 more adds → `Tasks: 6` with unique titles, focus kept on Add Task, focus
+      fallback, same-value `setFilter` does not re-render, conditional `useState` throws the
+      hook count error, XSS strings stay text.
+
+**Verification:**
+- `npm test` → 38 passed, 0 failed. `npm run build` succeeds.
+- Headless Chrome `/tests/` → `Event tests: 12 passed`, `App tests: 19 passed`, 0 failed.
+- Headless Chrome `/` → DOM matches `TaskApp`, no Console errors, mount assertion passes.
+- Inside a 375px iframe: `scrollWidth = 375`, rightmost button ends at 359px (no horizontal scroll).
 
 **Git milestone 4:** `feat(ui): assemble reactive todo application`
 
-**Status:** NOT STARTED
+**Status:** DONE
 
 ---
 

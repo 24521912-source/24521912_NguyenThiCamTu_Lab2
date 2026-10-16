@@ -31,8 +31,11 @@
 | `src/mini-react.js` | Exercise 1 VNode factory and DOM renderer (adapted for delegation in T-04) |
 | `src/reactive-engine.js` | `stateStore`, `cursor`, `resetCursor`, `setRenderer`, `useState`, `renderApp` |
 | `src/events.js` | `setupEventDelegation(rootContainer)` |
-| `src/main.js` | `TaskApp` component and application bootstrap |
+| `src/task-app.js` | `TaskApp` component |
+| `src/main.js` | Application bootstrap (delegation + `renderApp`) |
 | `src/style.css` | Styles |
+| `tests/*.test.js` | Node tests (`npm test`) |
+| `tests/*.browser.js`, `tests/index.html` | Browser tests, open `/tests/` on the dev server |
 
 ## 4. Reactive State Rules
 
