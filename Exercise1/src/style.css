@@ -1,0 +1,83 @@
+:root {
+  --color-bg: #ffffff;
+  --color-text: #1f2328;
+  --color-muted: #4b5563;
+  --color-accent: #1d4ed8;
+  --color-accent-text: #ffffff;
+  --color-focus: #b45309;
+
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+
+  --font-sans: system-ui, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, Consolas, monospace;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #111827;
+    --color-text: #f3f4f6;
+    --color-muted: #d1d5db;
+    --color-accent: #93c5fd;
+    --color-accent-text: #111827;
+    --color-focus: #fbbf24;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+#root-view {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  width: min(100%, 40rem);
+  margin-inline: auto;
+  padding: var(--space-lg) var(--space-md);
+}
+
+.hero h1 {
+  margin: 0 0 var(--space-md);
+  font-size: clamp(1.75rem, 6vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.hero p {
+  margin: 0 0 var(--space-sm);
+  font-family: var(--font-mono);
+  color: var(--color-muted);
+  overflow-wrap: anywhere;
+}
+
+button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--space-sm) var(--space-lg);
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-accent-text);
+  background: var(--color-accent);
+  border: 0;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
