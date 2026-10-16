@@ -89,17 +89,17 @@ nested functions.
 Each test imports a fresh copy of the module (`import("../src/reactive-engine.js?case=N")`) so
 state never leaks between tests, without adding a test-only export.
 
-- [ ] `resetCursor()` makes the next pass read slot 0 again.
-- [ ] `setRenderer()` rejects non-functions with TypeError.
-- [ ] First render returns `initialValue`.
-- [ ] Two `useState` calls keep independent values.
-- [ ] Value is kept after re-render (initialValue is ignored on later passes).
-- [ ] `0`, `false`, `""` and `null` are not re-initialised.
-- [ ] `setState(5)` stores 5 and triggers one re-render.
-- [ ] `setState(prev => prev + 1)` uses the previous value.
-- [ ] Two functional updates in a row both apply (`+1`, `+1` → `+2`).
-- [ ] Setting the same value (`Object.is`) does not re-render.
-- [ ] A setter from an earlier pass still updates its own slot.
+- [x] `resetCursor()` makes the next pass read slot 0 again.
+- [x] `setRenderer()` rejects non-functions with TypeError.
+- [x] First render returns `initialValue`.
+- [x] Two `useState` calls keep independent values.
+- [x] Value is kept after re-render (initialValue is ignored on later passes).
+- [x] `0`, `false`, `""` and `null` are not re-initialised.
+- [x] `setState(5)` stores 5 and triggers one re-render.
+- [x] `setState(prev => prev + 1)` uses the previous value.
+- [x] Two functional updates in a row both apply (`+1`, `+1` → `+2`).
+- [x] Setting the same value (`Object.is`) does not re-render.
+- [x] A setter from an earlier pass still updates its own slot.
 
 ## Definition of Done
 
@@ -128,12 +128,17 @@ Contract and invariants written and reviewed. No code yet.
 
 # T-03: Implement Reactive useState Dispatcher
 
-- [ ] Implement `useState()` following invariants I1–I6.
-- [ ] All T-01 state test cases pass.
+- [x] Implement `useState()` following invariants I1–I6.
+- [x] All T-01 state test cases pass (11 tests, plus "new array with same content does re-render").
+- [x] Reproduced the slide-18 init bug: with `stateStore[i] ?? initialValue`, after
+      `setState(null)` the next render reads `"initial"` again. The implementation uses
+      `index >= stateStore.length` instead, covered by the `0, false, "", null` test.
+
+**Verification:** `npm test` → 38 passed, 0 failed.
 
 **Git milestone 2:** `feat(state): implement reactive useState dispatcher`
 
-**Status:** NOT STARTED
+**Status:** DONE
 
 ---
 
