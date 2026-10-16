@@ -7,36 +7,6 @@
 
 ---
 
-## Starting Point (review of Exercise 1 + 2 engine)
-
-Kept as is:
-- VNode POJO contract, `createTextElement`, `createElement`, recursive `renderToDOM`, text through `createTextNode`.
-- `useState` with closure index, functional updater and `Object.is` bail-out (Exercise 2 T-03).
-- Root delegation hub for `onClick` / `onInput` / `onKeydown` (Exercise 2 T-04).
-
-Missing / must change:
-- `renderApp()` is planned in Exercise 2 T-05 but not implemented yet. Exercise 3 needs it to
-  re-render after every `setState`. It must reset the cursor, run the component, mount with
-  `replaceChildren()` and restore focus by `id`.
-- `HTML_TAGS` has no `article` (needed for feed items).
-- `aria-busy`, `aria-hidden`, `aria-disabled`, `aria-pressed` already pass the `aria-*` rule. No change.
-
-Regression risk: any change to `mini-react.js` or `reactive-engine.js` must keep the 38 copied
-Exercise 1/2 Node tests and the 12 event browser tests passing.
-
----
-
-# T-00: Project Setup
-
-- [x] Create `Exercise3/` with the Exercise 2 engine (`mini-react.js`, `reactive-engine.js`,
-      `events.js`), its tests, `index.html`, `package.json`, `.gitignore`.
-- [x] `npm install`, then `npm test` → 38 passed, 0 failed.
-
-**Commit:** `chore: scaffold exercise 3 from exercise 2 engine`
-
-**Status:** DONE
-
----
 
 # T-01: Define FSM Contract
 
@@ -137,18 +107,18 @@ Valid edges: `IDLE→LOADING`, `LOADING→SUCCESS`, `LOADING→ERROR`, `ERROR→
 
 ## Test cases (implemented in T-02, `tests/view-state.test.js`)
 
-- [ ] `INITIAL_STATE` is `{ status: 'IDLE' }` and frozen.
-- [ ] `IDLE + START → LOADING`.
-- [ ] `LOADING + RESOLVE(data) → SUCCESS` with the same `data`.
-- [ ] `LOADING + RESOLVE([]) → SUCCESS` with `data: []` (empty is not a new state).
-- [ ] `LOADING + REJECT(msg) → ERROR` with `error: msg`.
-- [ ] `ERROR + START → LOADING` (Retry) and `SUCCESS + START → LOADING` (Reload).
-- [ ] Every "ignored" cell of the table returns the same object (`strictEqual`).
-- [ ] Unknown event, `RESOLVE` with non-array, `REJECT` with empty/non-string → TypeError.
-- [ ] `transition()` does not mutate the input state.
-- [ ] `isViewState()` accepts the four shapes and rejects `{status:'DONE'}`, `SUCCESS` without
+- [x] `INITIAL_STATE` is `{ status: 'IDLE' }` and frozen.
+- [x] `IDLE + START → LOADING`.
+- [x] `LOADING + RESOLVE(data) → SUCCESS` with the same `data`.
+- [x] `LOADING + RESOLVE([]) → SUCCESS` with `data: []` (empty is not a new state).
+- [x] `LOADING + REJECT(msg) → ERROR` with `error: msg`.
+- [x] `ERROR + START → LOADING` (Retry) and `SUCCESS + START → LOADING` (Reload).
+- [x] Every "ignored" cell of the table returns the same object (`strictEqual`).
+- [x] Unknown event, `RESOLVE` with non-array, `REJECT` with empty/non-string → TypeError.
+- [x] `transition()` does not mutate the input state.
+- [x] `isViewState()` accepts the four shapes and rejects `{status:'DONE'}`, `SUCCESS` without
       `data`, `ERROR` without `error`, `null`, arrays.
-- [ ] Every state reached through `transition()` passes `isViewState()`.
+- [x] Every state reached through `transition()` passes `isViewState()`.
 
 ## Definition of Done
 
@@ -156,13 +126,17 @@ Contract, transition table, invariants and test list written and reviewed. No co
 
 **Commit:** `docs: define exercise 3 rules and view state contract`
 
-**Status:** DONE (awaiting review)
+**Status:** DONE
 
 ---
 
 # T-02: Implement FSM and Async Data Loader
 
-- [ ] `src/view-state.js` + `tests/view-state.test.js` (all T-01 test cases).
+- [x] `src/view-state.js` + `tests/view-state.test.js` (all T-01 test cases).
+      `npm test` → 49 passed (11 new). Mutation check: RESOLVE accepted from any state,
+      data not copied, and a fresh LOADING object per START are each caught by a failing test.
+      Note: because `LOADING_STATE` is one shared frozen object, `LOADING + START` already
+      returns the same object; the explicit guard documents F6 rather than changing output.
 - [ ] `src/feed-api.js`: `fetchFeed({ mode, delayMs })` → `Promise<FeedItem[]>`; `mode` is
       `'success' | 'empty' | 'error'`, rejects with an `Error` on `'error'`. Node tests.
 - [ ] `renderApp()` in `reactive-engine.js` (prerequisite, see Starting Point).
