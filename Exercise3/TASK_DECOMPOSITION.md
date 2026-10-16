@@ -137,9 +137,12 @@ Contract, transition table, invariants and test list written and reviewed. No co
       data not copied, and a fresh LOADING object per START are each caught by a failing test.
       Note: because `LOADING_STATE` is one shared frozen object, `LOADING + START` already
       returns the same object; the explicit guard documents F6 rather than changing output.
-- [ ] `src/feed-api.js`: `fetchFeed({ mode, delayMs })` → `Promise<FeedItem[]>`; `mode` is
+- [x] `src/feed-api.js`: `fetchFeed({ mode, delayMs })` → `Promise<FeedItem[]>`; `mode` is
       `'success' | 'empty' | 'error'`, rejects with an `Error` on `'error'`. Node tests.
-- [ ] `renderApp()` in `reactive-engine.js` (prerequisite, see Starting Point).
+      `npm test` → 57 passed (8 new). Mutation check: returning the shared array, error mode
+      resolving, and skipping the delay are each caught by a failing test.
+      The feed includes an XSS probe title (`<img src=x onerror=alert(1)>`) for T-04/T-07.
+- [ ] `renderApp()` in `reactive-engine.js` (copy from Exercise 2 T-05, commit `273c576`).
 - [ ] `loadFeed(setState, fetcher)` with `async/await`, `try/catch`, fixed error message.
 
 **Commits:** `feat(state): implement view state transitions`, `feat(data): add simulated fetchFeed`, …
