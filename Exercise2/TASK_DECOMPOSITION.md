@@ -47,7 +47,7 @@ works with direct listeners, so the delegation tests in Exercise 2 replace that 
 
 ```javascript
 // Module-private state
-let stateStore = [];        // unknown[]: one slot per useState call, in call order
+const stateStore = [];      // unknown[]: one slot per useState call, in call order
 let cursor = 0;             // index of the next slot to read
 let triggerRender = () => {}; // registered re-render callback
 
@@ -105,7 +105,7 @@ state never leaks between tests, without adding a test-only export.
 
 Contract and invariants written and reviewed. No code yet.
 
-**Status:** DONE (waiting for review before T-02)
+**Status:** DONE
 
 ---
 
@@ -144,17 +144,29 @@ Contract and invariants written and reviewed. No code yet.
 
 # T-04: Implement Root Event Delegation Hub
 
-- [ ] Change `renderToDOM` to attach the VNode to its DOM node instead of calling `addEventListener`.
-- [ ] Accept `onClick`, `onInput`, `onKeydown` (functions only), `type`, and tags `ul`, `li`.
-- [ ] Create `src/events.js` with `setupEventDelegation(rootContainer)`.
-- [ ] One listener per event type on the root, registered once (second call is a no-op).
-- [ ] Walk from `event.target` to the root, call the first matching handler, then stop.
-- [ ] Browser tests: click handled once, bubbling from a nested child, new button after re-render
-      works, no listeners on children, no duplicate root listener.
+- [x] Change `renderToDOM` to attach the VNode to its DOM node (`element.__vnode`) instead of
+      calling `addEventListener`.
+- [x] Accept `onClick`, `onInput`, `onKeydown` (functions only), `type` (`button` / `submit` /
+      `reset`, on `<button>` only), and tags `ul`, `li`.
+- [x] Create `src/events.js` with `setupEventDelegation(rootContainer)`.
+- [x] One listener per event type on the root, registered once (a `WeakSet` makes a second
+      call a no-op).
+- [x] Walk from `event.target` to the root, call the first matching handler, then stop.
+- [x] Browser tests (`tests/events.browser.js`, run from `/tests/`): click handled once, no
+      listener on the child itself, bubbling from a nested span, only the nearest handler runs,
+      new button after 3 re-renders works once, no duplicate root listener, `keydown` with
+      `event.key`, `input` delegated, string handler rejected, missing root rejected,
+      `type="button"` applied.
+
+**Verification:**
+- `npm test` → 38 passed, 0 failed (Exercise 1 factory tests still pass after the engine change).
+- Headless Chrome on `http://localhost:5173/tests/` → `Event tests: 12 passed, 0 failed`.
+- Still to do by hand in T-06: DevTools → Elements → Event Listeners shows listeners on the root
+  only, none on buttons.
 
 **Git milestone 3:** `feat(events): attach root event delegation listener`
 
-**Status:** NOT STARTED
+**Status:** DONE
 
 ---
 
