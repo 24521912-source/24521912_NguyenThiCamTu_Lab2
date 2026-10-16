@@ -10,6 +10,7 @@ const HTML_TAGS = new Set([
   "main",
   "header",
   "section",
+  "article",
   "h1",
   "h2",
   "h3",

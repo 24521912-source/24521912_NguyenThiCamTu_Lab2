@@ -4,17 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Browser Tests</title>
+    <link rel="icon" href="data:," />
   </head>
   <body>
     <main>
       <h1>Browser Tests</h1>
       <p>Open DevTools Console to see the results.</p>
+      <p id="result">running</p>
     </main>
 
     <script type="module">
       import { runEventTests } from "./events.browser.js";
+      import { runDataFeedTests } from "./data-feed.browser.js";
 
-      runEventTests();
+      const result = document.getElementById("result");
+
+      try {
+        const events = runEventTests();
+        const feed = await runDataFeedTests();
+        result.textContent = `ALL PASSED: events ${events}, data-feed ${feed}`;
+      } catch (error) {
+        result.textContent = error.message;
+        console.error(error);
+      }
     </script>
   </body>
 </html>
