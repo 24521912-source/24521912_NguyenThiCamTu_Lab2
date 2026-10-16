@@ -3,6 +3,7 @@
  * Exercise 1 - Mini React VNode & Mounting Engine
  * T-01: Virtual DOM Factory
  * T-02: DOM Renderer
+ * Exercise 2 - T-04: event props are handled by the root delegation hub
  */
 
 const HTML_TAGS = new Set([
@@ -16,7 +17,14 @@ const HTML_TAGS = new Set([
   "button",
   "div",
   "span",
+  "ul",
+  "li",
 ]);
+
+// Handler props read by the delegation hub (src/events.js).
+const EVENT_PROPS = new Set(["onClick", "onInput", "onKeydown"]);
+
+const BUTTON_TYPES = new Set(["button", "submit", "reset"]);
 
 function isValidHTMLType(type) {
   return typeof type === "string" && HTML_TAGS.has(type);
@@ -163,6 +171,9 @@ function renderNode(vNode) {
   // T-02.2: HTML element rendering
   const element = document.createElement(type);
 
+  // T-04: the delegation hub finds handlers through this reference.
+  element.__vnode = vNode;
+
   for (const [key, value] of Object.entries(props)) {
     if (key === "children") {
       continue;
@@ -218,12 +229,21 @@ function renderNode(vNode) {
       continue;
     }
 
-    if (key === "onClick") {
+    // T-04: no listener on the element; the root hub calls the handler.
+    if (EVENT_PROPS.has(key)) {
       if (typeof value !== "function") {
-        throw new TypeError("onClick must be a function");
+        throw new TypeError(`${key} must be a function`);
       }
 
-      element.addEventListener("click", value);
+      continue;
+    }
+
+    if (key === "type") {
+      if (type !== "button" || !BUTTON_TYPES.has(value)) {
+        throw new TypeError("Invalid type value");
+      }
+
+      element.setAttribute("type", value);
       continue;
     }
 
