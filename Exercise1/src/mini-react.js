@@ -1,14 +1,29 @@
 
 /**
+ * Exercise 1 - Mini React VNode & Mounting Engine
  * T-01: Virtual DOM Factory
- * Exercise 1 - Mini React Engine
+ * T-02: DOM Renderer
  */
 
+const HTML_TAGS = new Set([
+  "main",
+  "header",
+  "section",
+  "h1",
+  "h2",
+  "h3",
+  "p",
+  "button",
+  "div",
+  "span",
+]);
+
+function isValidHTMLType(type) {
+  return typeof type === "string" && HTML_TAGS.has(type);
+}
+
 /**
- * Convert a string or number into a Text VNode.
- *
- * @param {string | number} text
- * @returns {object}
+ * T-01.1: Create a Text VNode.
  */
 export function createTextElement(text) {
   if (
@@ -28,18 +43,15 @@ export function createTextElement(text) {
 }
 
 /**
- * Check whether a value is a valid VNode.
- *
- * This helper is private to the module.
- *
- * @param {unknown} value
- * @returns {boolean}
+ * Validate a VNode recursively.
+ * Internal helper, not an additional engine feature.
  */
-function isValidVNode(value) {
+function isValidVNode(value, ancestors = new Set()) {
   if (
     value === null ||
     typeof value !== "object" ||
-    Array.isArray(value)
+    Array.isArray(value) ||
+    ancestors.has(value)
   ) {
     return false;
   }
@@ -62,57 +74,47 @@ function isValidVNode(value) {
     );
   }
 
-  return (
-    typeof type === "string" &&
-    /^[a-z][a-z0-9-]*$/.test(type)
+  if (!isValidHTMLType(type)) {
+    return false;
+  }
+
+  ancestors.add(value);
+
+  const valid = props.children.every((child) =>
+    isValidVNode(child, ancestors)
   );
+
+  ancestors.delete(value);
+
+  return valid;
 }
 
 /**
- * Create an Element VNode.
- *
- * @param {string} type
- * @param {object | null | undefined} props
- * @param {...unknown} children
- * @returns {object}
+ * T-01.2: Create an Element VNode.
  */
 export function createElement(type, props, ...children) {
-  // 1. Validate HTML element type
-  if (
-    typeof type !== "string" ||
-    !/^[a-z][a-z0-9-]*$/.test(type)
-  ) {
+  if (!isValidHTMLType(type)) {
     throw new TypeError("Invalid HTML element type");
   }
 
-  // 2. Validate props
   if (
     props != null &&
-    (
-      typeof props !== "object" ||
-      Array.isArray(props)
-    )
+    (typeof props !== "object" || Array.isArray(props))
   ) {
     throw new TypeError("Props must be an object or null");
   }
 
-  // 3. Normalize props without mutation
   const normalizedProps = { ...(props ?? {}) };
 
-  // 4. Flatten nested children arrays
-  const flatChildren = children.flat(Infinity);
-
-  // 5. Remove ignored children
-  const filteredChildren = flatChildren.filter(
-    (child) =>
-      child !== null &&
-      child !== undefined &&
-      child !== false
-  );
-
-  // 6. Normalize and validate children
-  const normalizedChildren = filteredChildren.map(
-    (child) => {
+  const normalizedChildren = children
+    .flat(Infinity)
+    .filter(
+      (child) =>
+        child !== null &&
+        child !== undefined &&
+        child !== false
+    )
+    .map((child) => {
       if (
         typeof child === "string" ||
         typeof child === "number"
@@ -125,10 +127,8 @@ export function createElement(type, props, ...children) {
       }
 
       throw new TypeError("Invalid VNode child");
-    }
-  );
+    });
 
-  // 7. Return a new VNode
   return {
     type,
     props: {
@@ -136,4 +136,113 @@ export function createElement(type, props, ...children) {
       children: normalizedChildren,
     },
   };
+}
+
+/**
+ * T-02: Convert a VNode into a native DOM Node.
+ */
+export function renderToDOM(vNode) {
+  if (!isValidVNode(vNode)) {
+    throw new TypeError("Invalid or malformed VNode");
+  }
+
+  return renderNode(vNode);
+}
+
+/**
+ * Internal recursive renderer.
+ */
+function renderNode(vNode) {
+  const { type, props } = vNode;
+
+  // T-02.1: Text rendering
+  if (type === "TEXT_ELEMENT") {
+    return document.createTextNode(props.nodeValue);
+  }
+
+  // T-02.2: HTML element rendering
+  const element = document.createElement(type);
+
+  for (const [key, value] of Object.entries(props)) {
+    if (key === "children") {
+      continue;
+    }
+
+    if (key === "id" || key === "role" || key === "title") {
+      if (typeof value !== "string") {
+        throw new TypeError(`Invalid ${key} value`);
+      }
+
+      element.setAttribute(key, value);
+      continue;
+    }
+
+    if (key === "className") {
+      if (typeof value !== "string") {
+        throw new TypeError("Invalid className");
+      }
+
+      element.setAttribute("class", value);
+      continue;
+    }
+
+    if (key === "style") {
+      if (
+        value === null ||
+        typeof value !== "object" ||
+        Array.isArray(value)
+      ) {
+        throw new TypeError("Style must be an object");
+      }
+
+      for (const [property, cssValue] of Object.entries(value)) {
+        if (
+          !/^[a-zA-Z][a-zA-Z0-9]*$/.test(property) ||
+          (typeof cssValue !== "string" &&
+            typeof cssValue !== "number")
+        ) {
+          throw new TypeError("Invalid style property");
+        }
+
+        if (
+          /url\s*\(|expression\s*\(|@import/i.test(
+            String(cssValue)
+          )
+        ) {
+          throw new TypeError("Unsafe CSS value");
+        }
+
+        element.style[property] = cssValue;
+      }
+
+      continue;
+    }
+
+    if (key === "onClick") {
+      if (typeof value !== "function") {
+        throw new TypeError("onClick must be a function");
+      }
+
+      element.addEventListener("click", value);
+      continue;
+    }
+
+    if (
+      /^(aria-[a-z-]+|data-[a-z-]+)$/.test(key) &&
+      (typeof value === "string" ||
+        typeof value === "number")
+    ) {
+      element.setAttribute(key, String(value));
+      continue;
+    }
+
+    throw new TypeError(`Unsupported DOM property: ${key}`);
+  }
+
+  // Render and append children in order
+  for (const child of props.children) {
+    element.appendChild(renderNode(child));
+  }
+
+  return element;
 }
