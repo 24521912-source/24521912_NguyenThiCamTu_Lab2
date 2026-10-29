@@ -1,218 +1,72 @@
-# PROJECT RULES — HOMEWORK 1: PRODUCTION ENTERPRISE DATA-GRID
+# Project Rules — Homework 1: Enterprise Data-Grid
 
-**Course:** Web Application Development 2026 — UIT, VNU-HCM  
-**Assignment:** Lab 02 — Homework 1: Production Enterprise Data-Grid  
-**Target:** WCAG 2.2 AA, Lighthouse Accessibility 100, Best Practices 100  
-**Engineering Methodology:** Contract-First, Atomic AI Development, Independent Verification
+**Môn:** Web Application Development 2026 — UIT, ĐHQG-HCM  
+**Bài:** Lab 02 — Homework 1  
+**Mục tiêu:** WCAG 2.2 AA, Lighthouse Accessibility 100 và Best Practices 100
 
----
-
-## 1. Project Identity and Scope
-
-This project implements a reusable, accessible, production-oriented Enterprise Data-Grid.
-
-The application must support:
-
-- Strongly typed, reusable TypeScript generic contracts.
-- Column sorting.
-- Data filtering.
-- Client-side pagination.
-- Row selection.
-- Semantic HTML tables.
-- Appropriate ARIA grid semantics.
-- Keyboard navigation.
-- Predictable focus management.
-- WCAG 2.2 AA accessibility requirements.
-- Responsive layouts.
-- Verifiable Lighthouse Accessibility and Best Practices scores.
-
-All implementation decisions must prioritize correctness, accessibility, maintainability, security, and explainability.
-
-**Do not add unrelated features that increase complexity without supporting an assignment requirement.**
-
-### 1.1 Source of Truth
-
-The instructor's requirements provided directly in prompts are authoritative.
-
-The AI coding agent will not receive the original Lab 1 or Lab 2 PDF documents.
-
-Rules:
-
-1. Never request the original lab PDFs.
-2. Never claim to have read documents that were not supplied.
-3. Use the instructor requirements explicitly embedded in the user's prompts.
-4. Distinguish mandatory requirements from recommended engineering improvements.
-5. Do not invent grading criteria, requirements, or submission instructions.
-6. Ask for clarification only when an ambiguity prevents safe implementation.
-7. Preserve already approved architectural decisions unless a defect requires revision.
-
-### 1.2 Requirement Priority
-
-Apply the following precedence:
-
-1. Explicit instructor requirements supplied by the user.
-2. The currently approved TypeScript contracts.
-3. This project-rules document.
-4. The approved `TASK_DECOMPOSITION.md`.
-5. Engineering best practices.
-
-If requirements conflict, explain the conflict before changing an approved contract.
+Đây là các quy tắc tôi đặt ra cho chính mình (và cho AI khi nhờ hỗ trợ) trong suốt quá trình làm bài.
+Mục đích là để bài làm đi đúng yêu cầu, từng bước một, và lúc vấn đáp tôi giải thích được mọi dòng code.
 
 ---
 
-## 2. Mandatory Anti-Monolithic AI Workflow
+## 1. Làm cái gì
 
-Follow the four-stage engineering workflow taught in Lab 1 and Lab 2.
+Một DataGrid dùng lại được, viết bằng React + TypeScript, có:
 
-### Stage 1 — Functional Slicing
+- contract TypeScript generic (`ColumnDef<T>`, `DataGridProps<T>`);
+- sắp xếp, lọc, phân trang, chọn dòng;
+- bảng HTML đúng ngữ nghĩa và ARIA grid;
+- điều hướng bằng bàn phím, quản lý focus rõ ràng;
+- đạt WCAG 2.2 AA, chạy tốt ở màn hình 375px;
+- điểm Lighthouse đo thật, không tự ghi.
 
-Break each feature into small, independently verifiable tasks.
+Không thêm tính năng nào mà đề không cần.
 
-Each task should accomplish one clear engineering objective.
+### Nguồn yêu cầu
 
-Do not combine unrelated responsibilities in one implementation task.
+Thứ tự ưu tiên khi có mâu thuẫn:
 
-### Stage 2 — Contract-First Specification
+1. Yêu cầu của thầy.
+2. Contract TypeScript đã chốt.
+3. File quy tắc này.
+4. `TASK_DECOMPOSITION.md`.
+5. Kinh nghiệm làm nghề nói chung.
 
-Before implementing a module:
-
-- Define its responsibilities.
-- Identify inputs and outputs.
-- Identify dependencies.
-- Specify TypeScript interfaces.
-- Define expected behavior.
-- Define edge cases.
-- Establish acceptance criteria.
-- Determine verification methods.
-
-Never begin implementation with unclear contracts.
-
-### Stage 3 — Atomic Generation
-
-**Implement exactly one authorized task per prompt.**
-
-Forbidden behaviors:
-
-- Generating the complete application in one attempt.
-- Implementing several future tasks without permission.
-- Rewriting unrelated modules.
-- Introducing unnecessary dependencies.
-- Modifying previously approved interfaces without justification.
-- Performing broad refactoring during a small feature task.
-
-An atomic task may change multiple files only when those changes are strictly necessary for that single task.
-
-### Stage 4 — Independent Verification
-
-After each implementation task:
-
-1. Review the generated code.
-2. Inspect the Git diff.
-3. Run available TypeScript checks.
-4. Run applicable tests.
-5. Verify the task's acceptance criteria.
-6. Identify regressions.
-7. Record any unresolved issues.
-8. Propose an atomic Git commit.
-
-Never accept generated code solely because it appears plausible.
+Không tự bịa thêm tiêu chí chấm. Cái gì là yêu cầu bắt buộc, cái gì là tôi tự chọn thêm thì ghi rõ.
 
 ---
 
-## 3. Required Project Documentation
+## 2. Cách làm việc: 4 bước
 
-Maintain the following engineering artifacts.
+1. **Chia nhỏ:** mỗi task chỉ làm một việc, kiểm tra được riêng.
+2. **Contract trước, code sau:** trước khi viết module nào thì phải rõ đầu vào, đầu ra, trường hợp biên và cách kiểm tra.
+3. **Làm từng task một:** không làm cả bài trong một lần, không sửa lan sang module không liên quan, không tự thêm thư viện.
+4. **Tự kiểm tra:** xem diff, chạy `tsc`, chạy test, đối chiếu tiêu chí. Xong mới commit.
 
-### 3.1 `project-rules.md`
-
-Defines the persistent development constraints for AI coding agents.
-
-The AI must consult these rules before proposing code changes.
-
-### 3.2 `TASK_DECOMPOSITION.md`
-
-Defines the Work Breakdown Structure.
-
-Each task must include:
-
-- Task ID.
-- Objective.
-- Expected output.
-- Prerequisites.
-- Acceptance criteria.
-- Verification method.
-- Suggested Git commit message.
-
-Do not begin a task unless its dependencies are satisfied.
-
-### 3.3 Recommended Verification Documentation
-
-When requested, maintain concise verification records covering:
-
-- Tests performed.
-- Actual results.
-- Failed checks.
-- Unverified conditions.
-- Defects discovered.
-- Corrections made.
-
-Record actual AI-generated defects and how they were detected.
-
-Do not fabricate defects or test evidence.
+Code trông "có vẻ đúng" thì chưa phải là đúng; phải chạy thử mới biết.
 
 ---
 
-## 4. Technology Stack
+## 3. Tài liệu cần có
 
-### 4.1 Proposed Implementation Stack
-
-Use:
-
-- React.
-- TypeScript.
-- Vite.
-- Semantic HTML5.
-- Modern CSS.
-- ES6+ JavaScript.
-- Native browser APIs.
-- Git.
-
-React, TypeScript, and Vite are the selected implementation stack for this project.
-
-Do not treat this technology choice as an additional instructor requirement unless explicitly confirmed.
-
-### 4.2 Forbidden Technologies
-
-Do not introduce:
-
-- jQuery.
-- Bootstrap.
-- Tailwind CSS.
-- Third-party DataGrid components.
-- Unnecessary component frameworks.
-- External script CDNs.
-- Unnecessary state-management libraries.
-- Deprecated browser APIs.
-
-Development tools for testing, linting, and accessibility auditing may be introduced when they are justified and approved.
-
-### 4.3 Dependency Policy
-
-Before adding a dependency:
-
-1. Explain why it is needed.
-2. Identify the functionality it provides.
-3. Explain whether native APIs can accomplish the same task.
-4. Confirm compatibility with the existing stack.
-5. Avoid unnecessary package installation.
-
-Prefer the smallest maintainable solution.
+- `project-rules.md`: file này.
+- `TASK_DECOMPOSITION.md`: danh sách task. Mỗi task có mã, mục tiêu, đầu ra, điều kiện trước, tiêu chí đạt, cách kiểm tra và tên commit.
+- Ghi chép kiểm chứng khi cần: đã test gì, kết quả thật ra sao, cái gì chưa kiểm tra.
+- `AI_FAILURE_AUDIT.md`: lỗi AI gây ra mà tôi bắt được. Chỉ ghi lỗi thật.
 
 ---
 
-## 5. TypeScript Contract Rules
+## 4. Công nghệ
 
-The instructor provides the following baseline contracts:
+Dùng: React, TypeScript, Vite, HTML5 ngữ nghĩa, CSS hiện đại, API có sẵn của trình duyệt, Git.
+
+Không dùng: jQuery, Bootstrap, Tailwind, thư viện DataGrid có sẵn, CDN ngoài, thư viện quản lý state không cần thiết.
+
+Công cụ test và lint thì được thêm, nhưng phải có lý do. Trước khi cài gói nào, tự hỏi: API gốc có làm được không? Có gói nhỏ hơn không?
+
+---
+
+## 5. Contract của thầy (giữ nguyên)
 
 ```typescript
 export interface ColumnDef<T> {
@@ -229,777 +83,149 @@ export interface DataGridProps<T> {
 }
 ```
 
-### 5.1 Contract Preservation
-
-These interfaces are the baseline API contract.
-
-Requirements:
-
-- Preserve their meaning and compatibility.
-- Use generic type parameters appropriately.
-- Use `keyof T` for type-safe column access.
-- Respect optional properties.
-- Avoid `any` wherever a precise type is practical.
-- Do not use unsafe type assertions to bypass errors.
-- Keep public types understandable and documented.
-
-### 5.2 Contract Extensions
-
-Additional properties may be proposed for:
-
-- Stable row identity.
-- Pagination configuration.
-- Filtering configuration.
-- Selection behavior.
-- Additional accessibility support.
-
-Any extensions must:
-
-1. Be justified by an explicit requirement or demonstrated defect.
-2. Preserve compatibility with the baseline API.
-3. Be reviewed before implementation.
-4. Have corresponding acceptance tests.
-
-Do not silently replace the original contract.
-
-### 5.3 Generic Reusability
-
-The DataGrid must not depend on student-specific fields.
-
-Do not hardcode properties such as:
-
-- `studentId`
-- `fullName`
-- `department`
-- `gpa`
-
-inside reusable grid logic.
-
-Student data may be used only in the demo application.
-
-The same DataGrid should support another compatible record type without rewriting the grid component.
+- Không đổi ý nghĩa, không thay contract một cách âm thầm.
+- `accessorKey` dùng `keyof T`. Không dùng `any`, không ép kiểu để né lỗi.
+- Nếu cần mở rộng (định danh dòng, cấu hình phân trang...) thì phải có lý do, phải tương thích với bản gốc và phải có test.
+- Grid không được biết gì về dữ liệu sinh viên (`studentId`, `gpa`...). Dữ liệu sinh viên chỉ dùng cho trang demo.
 
 ---
 
-## 6. Component Architecture
+## 6. Kiến trúc
 
-Follow separation of concerns.
-
-Separate:
-
-- Application-specific demo data.
-- TypeScript contracts.
-- Data transformations.
-- DataGrid rendering.
-- Keyboard interaction logic.
-- Selection state.
-- Styling.
-- Testing.
-
-### 6.1 React Component Rules
-
-- Use functional React components.
-- Treat props as immutable.
-- Avoid unnecessary state duplication.
-- Derive displayed data from source data and current state.
-- Do not mutate arrays received through props.
-- Use stable keys for rendered rows.
-- Prefer clear component boundaries over premature abstractions.
-- Use React hooks according to the Rules of Hooks.
-
-### 6.2 Rendering Rules
-
-- Prefer declarative React rendering.
-- Do not directly manipulate React-managed DOM content.
-- Direct DOM access is permitted only when justified, such as focus management.
-- Avoid unnecessary re-renders.
-- Do not optimize prematurely without evidence.
-
-### 6.3 State Consistency
-
-Ensure sorting, filtering, pagination, and selection remain consistent when combined.
-
-The expected data-processing sequence is:
-
-**Source Data → Filtering → Sorting → Pagination → Visible Rows**
-
-Selection must be associated with stable record identity rather than visual row position.
+- Tách riêng: dữ liệu demo, contract, hàm xử lý dữ liệu, phần render, logic bàn phím, CSS và test.
+- Function component; props là bất biến; không mutate mảng `data`.
+- Thứ tự xử lý luôn là: **Dữ liệu gốc → Lọc → Sắp xếp → Phân trang → Dòng hiển thị**.
+- Dòng được chọn gắn với **bản ghi**, không gắn với vị trí trên màn hình.
+- Chỉ chạm DOM trực tiếp khi thật sự cần, ví dụ để chuyển focus.
+- Không tối ưu sớm khi chưa có số liệu chứng minh.
 
 ---
 
-## 7. Semantic HTML Rules
+## 7. HTML
 
-HTML must express the actual meaning of the content.
-
-Use semantic elements such as:
-
-- `header`
-- `main`
-- `section`
-- `nav`
-- `footer`
-- `table`
-- `caption`
-- `thead`
-- `tbody`
-- `tr`
-- `th`
-- `td`
-- `button`
-- `label`
-- `input`
-
-### 7.1 Document Structure
-
-Requirements:
-
-- Use a valid HTML5 document.
-- Declare the appropriate document language.
-- Use UTF-8 encoding.
-- Include the viewport meta tag.
-- Provide exactly one primary `h1` in the application document.
-- Preserve logical heading hierarchy.
-- Provide meaningful page landmarks.
-- Provide an accessible skip link to the main content.
-
-### 7.2 Table Semantics
-
-The DataGrid must preserve meaningful tabular structure.
-
-Requirements:
-
-- Use a real table for tabular data.
-- Provide an accessible table/grid name.
-- Use column header cells appropriately.
-- Preserve header-to-cell relationships.
-- Avoid using generic `div` elements as replacements for native table structure without a justified reason.
-- Avoid obsolete presentational HTML attributes.
-
-### 7.3 Forms and Controls
-
-- Use visible labels for search and filter inputs.
-- Prefer native buttons for actions.
-- Do not rely on placeholders as the only label.
-- Provide accessible names for interactive controls.
-- Use `aria-describedby` when supplementary instructions are necessary.
+- `lang`, UTF-8, meta viewport; đúng một `h1`; có landmark và skip link.
+- Dùng `table`, `thead`, `tbody`, `th`, `td` thật, không dùng chồng `div` để giả bảng.
+- Ô tìm kiếm có `label` hiển thị; không dùng placeholder thay cho label.
+- Hành động thì dùng `button` thật.
 
 ---
 
-## 8. DataGrid Functional Requirements
+## 8. Chức năng của grid
 
-### 8.1 Sorting
+**Sắp xếp:** chỉ áp dụng cho cột `sortable`; có tăng dần và giảm dần; số so sánh theo số, chuỗi so sánh theo locale; không đụng vào mảng gốc.
 
-Sorting must:
+**Lọc:** không phân biệt hoa thường, xử lý đúng tiếng Việt có dấu; không có kết quả thì báo rõ ràng.
 
-- Apply only to sortable columns.
-- Support ascending and descending order.
-- Handle numeric values correctly.
-- Handle string values consistently.
-- Support locale-aware comparison when appropriate.
-- Preserve the original data array.
-- Reflect the current sort state accurately.
-- Remain consistent with filtering and pagination.
+**Phân trang:** cắt đúng trang; trang cuối thiếu dòng vẫn đúng; dữ liệu rỗng vẫn đúng; lọc xong thì không còn trang nào không hợp lệ.
 
-### 8.2 Filtering
+**Chọn dòng:** chọn và bỏ chọn được; sort xong vẫn đúng bản ghi; giữ nguyên chữ ký `onRowSelect`; không gọi callback thừa.
 
-Filtering must:
-
-- Support user-entered search terms.
-- Be case-insensitive where appropriate.
-- Handle Vietnamese Unicode text correctly.
-- Preserve the original data.
-- Produce an understandable empty-result state.
-- Work correctly with sorting and pagination.
-
-The exact filtering scope must follow the approved implementation contract.
-
-### 8.3 Pagination
-
-Pagination must:
-
-- Display the correct visible data slice.
-- Calculate the total page count correctly.
-- Provide accessible navigation controls.
-- Prevent navigation outside valid page boundaries.
-- Handle partially filled final pages.
-- Handle empty datasets.
-- Remain valid when filtering changes the total number of records.
-
-### 8.4 Row Selection
-
-Row selection must:
-
-- Use stable row identity.
-- Support selection and deselection.
-- Reflect the correct selected state visually and semantically.
-- Remain associated with the correct record after sorting.
-- Follow a defined policy across filtering and pagination.
-- Preserve the existing `onRowSelect` callback contract.
-- Avoid accidental duplicate events.
-
-### 8.5 Empty and Boundary States
-
-Handle:
-
-- Empty input data.
-- No matching search results.
-- One-record datasets.
-- Missing optional values.
-- Final partial pages.
-- Changing data.
-- Removed selected records.
-- No available focusable data cells.
-
-Do not assume datasets are always populated.
+**Trường hợp biên:** dữ liệu rỗng, lọc không ra kết quả, bảng chỉ có 1 dòng, giá trị bị thiếu, dữ liệu thay đổi, bản ghi đang chọn bị xoá.
 
 ---
 
-## 9. Accessibility — WCAG 2.2 AA
+## 9. Accessibility (bắt buộc, không phải "trang trí")
 
-Accessibility is a mandatory engineering requirement.
+**ARIA grid:** `role="grid"`, `row`, `gridcell`, column header, `aria-sort`, `aria-selected`. Mọi giá trị ARIA phải đúng với trạng thái thật.
 
-Do not treat accessibility as optional visual polish.
+**Bàn phím:**
 
-### 9.1 ARIA Grid
-
-Implement a coherent interactive grid model using appropriate:
-
-- `role="grid"`
-- Row semantics.
-- Column header semantics.
-- Gridcell semantics.
-- Accessible grid naming.
-- `aria-sort`.
-- `aria-selected`.
-
-Use ARIA only where required.
-
-Native semantic HTML must be preserved wherever possible.
-
-ARIA attributes must accurately represent application state.
-
-Do not add misleading or redundant attributes.
-
-### 9.2 Keyboard Interaction Contract
-
-The instructor requires the following keyboard behavior:
-
-| Key | Required behavior |
+| Phím | Hành vi |
 |---|---|
-| ArrowUp | Move focus upward |
-| ArrowDown | Move focus downward |
-| ArrowLeft | Move focus left |
-| ArrowRight | Move focus right |
-| Enter | Select or activate the focused row |
-| Space | Toggle the focused row's selection state |
-| Tab | Enter or leave the grid according to the focus model |
-| Shift+Tab | Navigate backward without keyboard traps |
+| ↑ ↓ ← → | Di chuyển focus giữa các ô |
+| Enter | Chọn dòng đang focus |
+| Space | Bật/tắt chọn dòng đang focus |
+| Tab / Shift+Tab | Vào và ra khỏi grid, không bị kẹt |
 
-Implement the specified Enter and Space behavior consistently with the approved selection contract.
+**Focus:** dùng roving tabindex; luôn thấy rõ viền focus; không có keyboard trap; sau khi sort, lọc hay đổi trang thì focus vẫn ở chỗ hợp lý; không đụng tới cách bàn phím hoạt động bên trong ô input.
 
-### 9.3 Focus Management
+**Screen reader:** đọc được tên grid, tiêu đề cột, trạng thái sort, trạng thái chọn, số kết quả và các thông báo; không đọc lặp lại quá nhiều.
 
-Requirements:
+**Thị giác:** chữ thường có contrast ≥ 4.5:1; không dùng riêng màu sắc để thể hiện trạng thái; zoom lớn vẫn dùng được; tôn trọng `prefers-reduced-motion`.
 
-- Use a documented focus-navigation strategy.
-- Prefer roving tabindex where appropriate.
-- Maintain predictable focus.
-- Provide a visible focus indicator.
-- Do not trap keyboard users.
-- Preserve sensible focus behavior after sorting, filtering, pagination, and re-rendering.
-- Do not focus detached or hidden elements.
-- Preserve native keyboard behavior inside editable controls.
-
-### 9.4 Screen-Reader Support
-
-Ensure that assistive technologies can identify:
-
-- Grid purpose.
-- Column headers.
-- Relevant row and cell structure.
-- Sorting state.
-- Selected state.
-- Search results and empty states.
-- Pagination controls.
-- Relevant dynamic status changes.
-
-Avoid excessive or duplicated announcements.
-
-### 9.5 WCAG Contrast and Visual Accessibility
-
-Target WCAG 2.2 AA.
-
-Requirements include:
-
-- Normal text contrast of at least 4.5:1 under applicable criteria.
-- Appropriate contrast for large text and non-text UI components.
-- Visible keyboard focus indicators.
-- No reliance on color alone to convey selection or status.
-- Readable content at increased zoom.
-- Appropriate target sizes or spacing where required.
-- Reduced-motion support for any nonessential animation.
-
-### 9.6 Accessibility Verification
-
-Use a combination of:
-
-- Browser Accessibility Tree inspection.
-- Keyboard-only interaction testing.
-- Automated accessibility checks.
-- Screen-reader testing where available.
-- WCAG checklist review.
-
-**Automated accessibility scores alone do not prove full WCAG 2.2 AA compliance.**
+Điểm của công cụ tự động không chứng minh được toàn bộ WCAG. Vẫn phải tự thử bằng bàn phím và screen reader.
 
 ---
 
-## 10. Responsive Design and CSS
+## 10. CSS và responsive
 
-### 10.1 Mobile-First
-
-Design and verify at a 375px viewport before expanding to larger screens.
-
-Also test representative tablet and desktop widths.
-
-### 10.2 Layout
-
-Prefer:
-
-- Flexbox for one-dimensional layouts.
-- CSS Grid for two-dimensional layouts.
-- Relative units.
-- Flexible widths.
-- Appropriate wrapping.
-- Reusable spacing tokens.
-
-Avoid unnecessary fixed widths.
-
-A wide data table may use a bounded horizontal scrolling region on small screens, provided keyboard and accessibility requirements remain satisfied.
-
-### 10.3 CSS Design Tokens
-
-Define shared values using CSS custom properties in `:root`.
-
-Include tokens for:
-
-- Colors.
-- Text.
-- Surfaces.
-- Borders.
-- Focus indicators.
-- Spacing.
-- Typography.
-- Radius.
-
-Do not scatter arbitrary hardcoded colors throughout component styles.
-
-### 10.4 Styling Restrictions
-
-- Avoid unnecessary inline styles.
-- Avoid excessive CSS specificity.
-- Avoid unnecessary `!important`.
-- Keep CSS modular and readable.
-- Avoid layout shifts caused by dynamic content.
-- Ensure important controls remain usable on mobile.
+- Thiết kế cho 375px trước, rồi mới mở rộng lên tablet và desktop.
+- Dùng Flexbox và Grid, đơn vị tương đối. Bảng rộng thì cho cuộn ngang trong vùng của bảng, không làm cả trang cuộn ngang.
+- Màu, khoảng cách, font, viền và focus khai báo bằng biến trong `:root`.
+- Hạn chế style inline và `!important`; không để layout bị nhảy khi nội dung thay đổi.
 
 ---
 
-## 11. JavaScript and React Coding Standards
+## 11. Viết code
 
-Use modern ECMAScript conventions.
-
-### 11.1 Variables
-
-- Prefer `const`.
-- Use `let` only for reassigned variables.
-- Never use `var`.
-- Avoid implicit globals.
-
-### 11.2 Event Handling
-
-- Use React event handlers.
-- Use modern keyboard events.
-- Inspect `event.key`.
-- Do not use `keypress` or `keyCode`.
-- Avoid unnecessary document-level listeners.
-- Prevent default behavior only when necessary.
-
-### 11.3 Data Manipulation
-
-- Avoid mutation of props.
-- Prefer pure transformation functions.
-- Use explicit, meaningful variable names.
-- Handle null and undefined values intentionally.
-- Avoid unnecessary side effects.
-
-### 11.4 Code Readability
-
-- Keep functions focused.
-- Avoid deeply nested conditionals where simpler alternatives exist.
-- Avoid duplicated logic.
-- Use meaningful TypeScript types.
-- Explain complex algorithms using concise Vietnamese comments.
-
-Do not write comments that merely repeat obvious code.
+- Dùng `const`, không dùng `var`; dùng `event.key`, không dùng `keyCode` hay `keypress`.
+- Hàm ngắn, làm một việc; ưu tiên hàm thuần; xử lý `null`/`undefined` có chủ đích.
+- Comment bằng tiếng Việt, chỉ ở những chỗ khó hiểu; không viết comment lặp lại đúng điều code đã nói.
 
 ---
 
-## 12. Security Rules
+## 12. Bảo mật
 
-### 12.1 XSS Prevention
-
-Never inject untrusted user data through unsafe HTML APIs.
-
-Forbidden:
-
-- Unsanitized `innerHTML`.
-- Untrusted `dangerouslySetInnerHTML`.
-- Inline HTML event-handler attributes.
-- Executing user-provided text as code.
-
-Render text using safe React text rendering.
-
-### 12.2 Data Safety
-
-- Validate assumptions about incoming data.
-- Do not expose secrets in frontend code.
-- Avoid unnecessary personal data in demo datasets.
-- Use fictional sample records.
-- Do not introduce external network dependencies without approval.
-
-### 12.3 Dependency Safety
-
-- Avoid unnecessary packages.
-- Do not introduce libraries solely to implement features already supported by the approved stack.
-- Inspect package changes before committing.
+- Không dùng `innerHTML` hay `dangerouslySetInnerHTML` với dữ liệu không tin được; để React tự render chữ.
+- Dữ liệu demo là hư cấu; không có secret trong code frontend.
+- Kiểm tra `package.json` và lockfile trước khi commit.
 
 ---
 
-## 13. Performance Requirements
+## 13. Hiệu năng và Lighthouse
 
-Optimize only after ensuring correctness.
-
-Priorities:
-
-1. Correct data transformations.
-2. Efficient React rendering.
-3. Stable row identity.
-4. Avoid unnecessary DOM updates.
-5. Prevent avoidable layout shifts.
-6. Maintain responsive interaction.
-
-Do not introduce virtual scrolling or advanced memoization unless a demonstrated requirement or performance problem justifies it.
-
-Virtual scrolling is discussed in Lab 2 but is not automatically a mandatory Homework 1 feature.
-
-### 13.1 Lighthouse Targets
-
-The instructor requires:
-
-- Lighthouse Accessibility: **100/100**.
-- Lighthouse Best Practices: **100/100**.
-
-These are verification targets, not assumed outcomes.
-
-Actual scores must be measured in a real browser audit.
-
-Never fabricate scores.
-
-Record which checks were executed and which remain unverified.
+- Đúng trước, nhanh sau. Không làm virtual scrolling hay memo phức tạp khi chưa cần.
+- Thầy yêu cầu Lighthouse **Accessibility 100** và **Best Practices 100**. Phải đo thật trong trình duyệt; không bao giờ tự điền điểm.
 
 ---
 
-## 14. Testing and Quality Gates
+## 14. Kiểm tra
 
-Every task must pass relevant verification before being marked complete.
+Cần kiểm tra: sắp xếp, lọc, phân trang, chọn dòng, phối hợp các thao tác, trường hợp biên, không mutate input, TypeScript, DOM, console, accessibility tree, bàn phím và responsive.
 
-### 14.1 Functional Verification
-
-Test:
-
-- Sorting.
-- Filtering.
-- Pagination.
-- Row selection.
-- Feature interactions.
-- Empty states.
-- Boundary conditions.
-- Input immutability.
-
-### 14.2 TypeScript Verification
-
-Run available TypeScript checks.
-
-Do not ignore compiler errors.
-
-Do not use unsafe casts merely to suppress type errors.
-
-### 14.3 Browser Verification
-
-When possible, inspect:
-
-- Rendered DOM structure.
-- Browser console.
-- Accessibility Tree.
-- Keyboard interactions.
-- Responsive behavior.
-- Focus indicators.
-
-### 14.4 Regression Verification
-
-After adding a feature, verify that previously implemented features still behave correctly.
-
-### 14.5 Verification Statuses
-
-Use only these statuses:
-
-- `PASS`: Executed and passed.
-- `FAIL`: Executed and failed.
-- `NOT VERIFIED`: Not executed or insufficient evidence.
-- `NOT APPLICABLE`: Not relevant to this task.
-
-Never label a task as fully verified without supporting evidence.
+Chỉ dùng 4 trạng thái: `PASS` (đã chạy và đạt), `FAIL` (đã chạy và trượt), `NOT VERIFIED` (chưa chạy hoặc thiếu bằng chứng), `NOT APPLICABLE` (không áp dụng).
 
 ---
 
-## 15. Git and Atomic Commit Rules
+## 15. Git
 
-Git history must demonstrate genuine engineering decomposition.
-
-### 15.1 Atomic Commits
-
-Each commit should represent one logical task.
-
-Examples:
-
-```text
-docs(spec): define datagrid contracts
-chore: initialize vite react typescript
-feat(html): implement semantic page structure
-feat(css): add design tokens and reset
-feat(grid): render generic table
-feat(grid): implement column sorting
-feat(grid): implement data filtering
-feat(grid): implement pagination
-feat(grid): implement row selection
-feat(a11y): implement grid keyboard navigation
-fix(a11y): improve focus management
-test(grid): verify sorting behavior
-test(a11y): audit keyboard interactions
-```
-
-These commit messages are examples, not an instructor-mandated exact sequence.
-
-### 15.2 Commit Verification
-
-Before proposing a commit:
-
-1. Inspect `git status`.
-2. Inspect `git diff`.
-3. Run relevant checks.
-4. Confirm changes match the authorized task.
-5. Confirm no unrelated files are included.
-6. Use a descriptive commit message.
-
-Do not combine multiple unrelated features into one large commit.
-
-### 15.3 Git Integrity
-
-- Do not rewrite existing Git history without explicit permission.
-- Do not force-push without authorization.
-- Do not include secrets.
-- Do not commit temporary or generated files unnecessarily.
-- Never fabricate a Git history to simulate an atomic development workflow.
+- Mỗi commit là một việc, đặt tên theo Conventional Commits, ví dụ `feat(grid): implement column sorting`.
+- Trước khi commit: xem `git status` và `git diff`, chạy kiểm tra, không đưa file thừa vào.
+- Không viết lại lịch sử, không force-push, không dựng lịch sử giả.
 
 ---
 
-## 16. AI Failure Audit and Development Evidence
+## 16. AI Failure Audit
 
-Record meaningful AI-generated defects discovered during development when verification documentation is requested.
-
-For each defect, document:
-
-1. Defect description.
-2. Incorrect behavior.
-3. Root cause.
-4. Diagnostic method.
-5. Correction.
-6. Verification result.
-
-Potential defect categories include:
-
-- Incorrect sorting.
-- Mutated input data.
-- Invalid page state.
-- Unstable row identity.
-- Misleading ARIA attributes.
-- Lost keyboard focus.
-- Keyboard traps.
-- XSS vulnerabilities.
-- Regressions after code changes.
-
-Do not invent errors merely to populate an audit.
+Mỗi lỗi ghi: mô tả, hành vi sai, nguyên nhân, cách phát hiện, cách sửa, kết quả kiểm tra lại. Chỉ ghi lỗi có thật, không bịa thêm cho đủ số.
 
 ---
 
-## 17. Oral Defense Preparation
+## 17. Chuẩn bị vấn đáp
 
-The developer must understand and be able to explain every major implementation decision.
-
-The AI should support explanations of:
-
-- Semantic HTML and DOM structure.
-- CSS Box Model.
-- Responsive layout.
-- TypeScript generics.
-- `keyof T`.
-- React props and state.
-- Derived data.
-- Sorting algorithms.
-- Filtering.
-- Pagination calculations.
-- Stable row identity.
-- ARIA grid semantics.
-- Roving tabindex.
-- Keyboard events.
-- Focus management.
-- XSS prevention.
-- Git diff inspection.
-
-### 17.1 Code Explanation Requirements
-
-For important code, explain in Vietnamese:
-
-1. What it does.
-2. How it works.
-3. Why it is necessary.
-4. Which requirement it satisfies.
-5. How to verify it.
-6. How it can be modified during a live defense.
-
-Prefer understandable code over unnecessary complexity.
+Phải tự giải thích và sửa được: HTML ngữ nghĩa, box model, responsive, generics và `keyof T`, props/state, dữ liệu dẫn xuất,
+thuật toán sort, lọc, phân trang, định danh dòng, ARIA grid, roving tabindex, sự kiện bàn phím, focus, chống XSS, đọc git diff.
 
 ---
 
-## 18. Instructions for Every AI Coding Task
+## 18. Definition of Done
 
-Before doing any work, read:
+- [ ] Contract generic đúng như thầy cho
+- [ ] Sort, lọc, phân trang, chọn dòng chạy đúng
+- [ ] Bảng đúng ngữ nghĩa, ARIA grid đúng
+- [ ] Phím mũi tên, Enter, Space hoạt động; focus ổn định; không có keyboard trap
+- [ ] Đã thử với screen reader; đã rà các tiêu chí WCAG 2.2 AA
+- [ ] Dùng được ở 375px; không còn lỗ hổng XSS
+- [ ] `tsc`, build và test đều pass
+- [ ] Lighthouse Accessibility 100 và Best Practices 100 (đo thật)
+- [ ] Commit nhỏ, rõ ràng; `TASK_DECOMPOSITION.md` khớp với tiến độ thật
+- [ ] Ghi rõ những gì chưa kiểm chứng được
+- [ ] Tự giải thích và sửa được code
 
-1. `project-rules.md`.
-2. The currently approved task from `TASK_DECOMPOSITION.md`.
-3. The relevant existing source code.
-
-Then:
-
-### Before Implementation
-
-- Identify the task ID.
-- Summarize its objective.
-- Confirm prerequisites.
-- Identify exact files to modify.
-- Identify acceptance criteria.
-- Describe the intended approach briefly.
-
-### During Implementation
-
-- Implement only the authorized task.
-- Make minimal necessary changes.
-- Follow approved contracts.
-- Preserve existing functionality.
-- Avoid unauthorized dependencies.
-- Use concise Vietnamese comments for important code sections.
-
-### After Implementation
-
-- Run available checks.
-- Inspect relevant code changes.
-- Report pass/fail/unverified results.
-- Identify limitations.
-- Explain the implementation in Vietnamese.
-- Suggest one atomic Git commit message.
-- Stop.
-
-**Never automatically proceed to the next task.**
+Mục nào chưa có bằng chứng thì ghi đúng là chưa có, không đánh dấu cho đẹp.
 
 ---
 
-## 19. Output and Communication Rules
-
-The AI coding agent must:
-
-- Respond in Vietnamese unless instructed otherwise.
-- Keep technical terms, API names, code identifiers, and commit messages in their conventional English forms.
-- Explain important engineering reasoning clearly.
-- Avoid unsupported claims.
-- Distinguish proposed work from completed work.
-- Distinguish tests that passed from tests that were not executed.
-- Provide complete requested Markdown or code directly in the chat.
-- Do not generate downloadable files unless explicitly requested.
-
-When authorized to edit the local project, edit only the files necessary for the current task.
-
-For planning-only prompts:
-
-- Do not create files.
-- Do not modify files.
-- Do not generate implementation code unless specifically requested.
-- Stop after producing the requested planning output.
-
----
-
-## 20. Definition of Done
-
-Homework 1 is ready for submission only when the following conditions are satisfied:
-
-- [ ] Required TypeScript generic contracts are implemented.
-- [ ] DataGrid renders arbitrary compatible record types.
-- [ ] Sorting works correctly.
-- [ ] Filtering works correctly.
-- [ ] Pagination works correctly.
-- [ ] Row selection works correctly.
-- [ ] Semantic table structure is valid.
-- [ ] ARIA grid semantics are correct.
-- [ ] Arrow-key navigation works.
-- [ ] Enter selection behavior works.
-- [ ] Space selection toggling works.
-- [ ] Focus management behaves predictably.
-- [ ] No keyboard traps exist.
-- [ ] Screen-reader accessibility has been evaluated.
-- [ ] Applicable WCAG 2.2 AA criteria have been verified.
-- [ ] Mobile layout is usable at 375px.
-- [ ] No known XSS vulnerabilities remain.
-- [ ] TypeScript checks pass.
-- [ ] Production build succeeds.
-- [ ] Relevant automated tests pass.
-- [ ] Lighthouse Accessibility reaches the required target.
-- [ ] Lighthouse Best Practices reaches the required target.
-- [ ] Git commits reflect atomic tasks.
-- [ ] `TASK_DECOMPOSITION.md` reflects actual development progress.
-- [ ] Unresolved issues and verification limitations are documented.
-- [ ] The developer can explain and modify the implementation independently.
-
-If any criterion is unverified, report it transparently rather than claiming the project is complete.
-
----
-
-## 21. Final Non-Negotiable Rules
-
-1. **ONE PROMPT = ONE ATOMIC TASK.**
-2. **CONTRACT FIRST, IMPLEMENTATION SECOND.**
-3. **NEVER GENERATE THE ENTIRE HOMEWORK AT ONCE.**
-4. **NEVER CHANGE UNRELATED FILES WITHOUT AUTHORIZATION.**
-5. **PRESERVE THE INSTRUCTOR'S TYPESCRIPT CONTRACTS.**
-6. **ACCESSIBILITY IS A CORE REQUIREMENT.**
-7. **NO UNSAFE HTML INJECTION.**
-8. **NO DEPRECATED KEYBOARD APIs.**
-9. **NO UNAUTHORIZED FRAMEWORKS OR DEPENDENCIES.**
-10. **VERIFY BEFORE COMMITTING.**
-11. **NEVER FABRICATE TEST RESULTS OR LIGHTHOUSE SCORES.**
-12. **MAINTAIN A GENUINE ATOMIC GIT HISTORY.**
-13. **EXPLAIN IMPORTANT CODE IN VIETNAMESE.**
-14. **DO NOT REQUEST THE ORIGINAL LAB PDFs.**
-15. **STOP AFTER THE CURRENT AUTHORIZED TASK.**
-
-**Core engineering principle:**
-
-> AI generates code. The developer is responsible for verifying that the code is correct.
+**Tóm lại:** làm từng việc nhỏ, contract trước, accessibility là bắt buộc, không chèn HTML không an toàn,
+không dùng API bàn phím đã lỗi thời, kiểm tra xong mới commit, không bịa kết quả test hay điểm Lighthouse.
+AI chỉ hỗ trợ viết code; người chịu trách nhiệm kiểm tra cuối cùng là tôi.
