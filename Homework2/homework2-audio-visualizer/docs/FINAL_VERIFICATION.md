@@ -86,7 +86,7 @@ Một chỗ ban đầu không test nào bắt được: đó là lỗ hổng th�
 | 3 lỗi AI thật | `Homework2/AI_FAILURE_AUDIT.md` | PASS |
 | Chuẩn bị vấn đáp | `docs/ORAL_DEFENSE.md` | PASS |
 | Production build | `npm run build` | PASS |
-| Lịch sử Git atomic | Chưa commit xong các task sau A01 | NOT VERIFIED |
+| Lịch sử Git atomic | 23 commit (`65c7ffd` → `9c8c575`), mỗi commit một task/module, đã push lên `origin/main` | PASS |
 | Người làm tự giải thích được code | Cần tự tập theo `docs/ORAL_DEFENSE.md` | NOT VERIFIED |
 
 ## 4. Còn phải tự làm bằng tay
@@ -95,4 +95,3 @@ Một chỗ ban đầu không test nào bắt được: đó là lỗ hổng th�
 2. **DevTools Performance:** Record khoảng 5 giây khi đang phát, có và không bật CPU 4× slowdown, rồi chụp dải Frames cho FFT 256 và 512.
 3. **DevTools Network:** bật "Slow 4G", thêm 3 bài rồi hủy bài đang tải; chụp request ở trạng thái "(canceled)".
 4. **Screen reader (NVDA):** nghe thông báo trạng thái khi tải xong, khi hủy và khi gặp lỗi.
-5. Sau khi commit xong, đổi dòng "Lịch sử Git atomic" thành PASS.
