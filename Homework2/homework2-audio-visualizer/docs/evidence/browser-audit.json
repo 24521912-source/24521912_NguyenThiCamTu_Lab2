@@ -1,0 +1,91 @@
+{
+  "url": "http://localhost:4300/",
+  "chrome": "Chrome/156.0.8078.49",
+  "performance": {
+    "fft256": {
+      "bins": 128,
+      "visualizerFps": 59.9,
+      "rafCallsPerSecond": 59.9,
+      "domMutationsWhilePlaying": 0,
+      "mainThreadScriptMsPerFrame": 0.101,
+      "mainThreadTaskMsPerFrame": 0.491
+    },
+    "fft512": {
+      "bins": 256,
+      "visualizerFps": 60.1,
+      "rafCallsPerSecond": 60.1,
+      "domMutationsWhilePlaying": 0,
+      "mainThreadScriptMsPerFrame": 0.122,
+      "mainThreadTaskMsPerFrame": 0.521
+    }
+  },
+  "rafCallsInOneSecondWhileStopped": 0,
+  "memory": {
+    "baseline": {
+      "heapMB": 1.76,
+      "nodes": 151,
+      "listeners": 153,
+      "scriptSeconds": 0.011792,
+      "taskSeconds": 0.155281
+    },
+    "afterEachRound": [
+      {
+        "heapMB": 2.13,
+        "nodes": 151,
+        "listeners": 153
+      },
+      {
+        "heapMB": 2.19,
+        "nodes": 151,
+        "listeners": 153
+      },
+      {
+        "heapMB": 2.22,
+        "nodes": 151,
+        "listeners": 153
+      },
+      {
+        "heapMB": 2.31,
+        "nodes": 151,
+        "listeners": 153
+      },
+      {
+        "heapMB": 2.36,
+        "nodes": 151,
+        "listeners": 153
+      },
+      {
+        "heapMB": 2.36,
+        "nodes": 151,
+        "listeners": 153
+      },
+      {
+        "heapMB": 2.37,
+        "nodes": 151,
+        "listeners": 153
+      },
+      {
+        "heapMB": 2.38,
+        "nodes": 151,
+        "listeners": 153
+      }
+    ],
+    "afterCycles": {
+      "heapMB": 2.38,
+      "nodes": 151,
+      "listeners": 153,
+      "scriptSeconds": 0.707532,
+      "taskSeconds": 3.089398
+    },
+    "playStopCyclesPerRound": 40,
+    "enqueueCancelCyclesPerRound": 20,
+    "readyTracksKept": 3
+  },
+  "audioResources": {
+    "audioContextsCreated": 1,
+    "audioContextsClosed": 0,
+    "sourcesCreated": 323,
+    "sourcesDisconnected": 323
+  },
+  "pageErrors": []
+}
