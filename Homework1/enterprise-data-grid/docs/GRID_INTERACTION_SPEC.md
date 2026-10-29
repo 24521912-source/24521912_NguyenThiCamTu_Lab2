@@ -57,6 +57,7 @@ The processing order is:
 - Vietnamese Unicode text must be handled correctly.
 - Filtering applies to the configured searchable textual representation of each row.
 - The filtering scope must be defined explicitly before B02 implementation; it must not silently assume that every property of `T` is searchable.
+- **B02 decision:** a row matches when the text of at least one configured column (`columns[].accessorKey`) contains the search term. Properties of `T` that are not configured as columns are never searched. Text is compared after `trim()`, Unicode NFC normalization and `toLocaleLowerCase('vi')`; the term is matched literally (no RegExp). `null`/`undefined` cells are treated as empty text.
 - Empty search terms restore the unfiltered dataset.
 - No matching records produce an accessible empty-result state.
 - Filtering changes must keep pagination and focus valid.
@@ -71,6 +72,7 @@ The processing order is:
 - Navigation outside valid boundaries is prevented.
 - An empty dataset displays an empty state, with no invalid page navigation.
 - Pagination controls use accessible names and expose the current page.
+- **D03/D04 decision:** page size is 5 (a constant in `DataGrid.tsx`). Previous/Next buttons use `aria-disabled` instead of `disabled` at the boundaries, because a `disabled` button drops keyboard focus to `<body>` when the user reaches the last page.
 
 ## 6. Row Identity and Selection Rules
 
@@ -81,6 +83,7 @@ The processing order is:
 - The original instructor contract must not be changed without review.
 - Before implementing E01, the identity strategy for records without a stable ID must be explicitly resolved.
 - Duplicate identifiers must not silently select the wrong record.
+- **E01 decision:** row identity is the record's object reference. The grid never clones records, so the reference survives sorting, filtering and pagination, and two different records can never share it. No `getRowId` extension is added and the instructor contract is unchanged. The React key is the record's index in the source `data` array, which also does not change when sorting, filtering or paging. If the parent replaces `data` with new objects, the selection is cleared rather than moved to another record. Known limit: the same object placed twice in `data` would produce duplicate keys.
 
 ### 6.2 Selection Model
 
@@ -91,6 +94,7 @@ The processing order is:
 - Filtering and pagination must not cause another record to be selected accidentally.
 - If a selected record is temporarily hidden, selection may remain associated with its identity.
 - If the selected record is removed from the source dataset, its selection is cleared.
+- **E02 decision:** a pointer click on a data cell behaves like Space (toggle) and also makes that cell the active cell.
 
 ### 6.3 Callback Behavior
 
