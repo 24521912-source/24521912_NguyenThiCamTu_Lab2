@@ -1,0 +1,15 @@
+title: Flash Sale 11.11
+pending: Sắp mở bán 00:10 | reserve aria-disabled = true
+clock DOM updates in 3s: 3
+active: Đang mở bán 03:00
+reserve FS-004: Đã giữ 1 × Đồng hồ thông minh Sao Mai S2 trong 30 giây. Hãy thanh toán trước khi hết giờ. | stock: Còn lại1/2Đang được giữ1Đã bán0
+reservations: Đồng hồ thông minh Sao Mai S2R-0001 · Số lượng 1Đang giữCòn 00:30Hủy giữ hàng
+competition FS-004: Giữ được: 1 · Hết hàng: 19 · Hết lượt thử lại: 0 · Số lần trùng phiên bản: 19 | stock: Còn lại0/2Đang được giữ2Đã bán0
+FS-004 sold out label: true | button aria-disabled = true
+checkout pending: Đang xử lý thanh toán…
+checkout: Thành công: đã thanh toán 1.911.000 ₫ cho đơn R-0001. | stock FS-004: Còn lại0/2Đang được giữ1Đã bán1
+reserve FS-001: Còn lại4/5Đang được giữ1Đã bán0
+after lock expiry: Đơn R-0003 đã hết 30 giây giữ hàng, sản phẩm đã trả về kho. | stock FS-001: Còn lại5/5Đang được giữ0Đã bán0
+375px scrollWidth: 375
+tab path: Bỏ qua đến nội dung chính → Giữ hàng → Giữ hàng → Giữ hàng → Giữ hàng → Thanh toán
+errors: none
