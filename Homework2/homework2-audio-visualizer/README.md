@@ -1,75 +1,63 @@
-# React + TypeScript + Vite
+# FIFO Audio Visualizer — Homework 2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Lab 02, Homework 2 (Web Application Development 2026, UIT). Hàng đợi FIFO tải và giải mã audio an toàn khi có nhiều yêu cầu cùng lúc,
+phát bằng Web Audio API và hiển thị phổ tần số trên Canvas 2D với `requestAnimationFrame`.
 
-Currently, two official plugins are available:
+- Một worker FIFO duy nhất; hủy bằng `AbortController` ở mọi giai đoạn (chờ, tải, giải mã).
+- `AnalyserNode` với FFT 256 (128 cột) hoặc 512 (256 cột).
+- Không dùng thư viện audio, queue hay visualizer bên ngoài; chỉ React + TypeScript + Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Cài đặt và chạy
 
-## React Compiler
+Cần Node 22 hoặc 24 trở lên.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```powershell
+npm install
+npm run dev          # http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Kiểm tra
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```powershell
+npx tsc -b --noEmit  # kiểm tra kiểu
+npm run lint
+npm run test         # 62 test (Vitest + jsdom, Web Audio được giả lập)
+npm run build        # bản production vào dist/
+npx vite preview     # chạy thử bản production
 ```
+
+## Cách dùng
+
+1. Bấm **Thêm cùng lúc 3 bài demo** để gửi 3 yêu cầu một lúc. Ô **Hàng đợi** cho thấy chỉ một bài được xử lý tại một thời điểm.
+2. Bấm **Hủy** ở một bài đang chờ hoặc đang tải.
+3. Bấm **Phát** ở một bài trong **Sẵn sàng phát**. Đổi **FFT size** để xem 128 hoặc 256 cột.
+4. Thử các URL lỗi trong ô gợi ý: `/audio/broken.wav` (file hỏng) và `/audio/missing.wav` (không tồn tại).
+   Có thể nhập URL `http(s)` khác, nhưng server đó phải cho phép CORS.
+
+File demo trong `public/audio/` được sinh bằng `node scripts/generate-demo-audio.mjs` (sóng tổng hợp, không có bản quyền).
+
+## Cấu trúc
+
+```text
+src/
+  types/        contract: AudioTask, QueueItem, AudioTaskError, FftSize, PlaybackState
+  queue/        AudioTaskQueue: FIFO, 1 worker, hủy, dispose
+  audio/        fetchAudio, decodeAudio, AudioEngine (AudioContext, source, analyser)
+  visualizer/   CanvasVisualizer: vẽ cột, vòng rAF, ResizeObserver
+  hooks/        useAudioController: nối các module trên vào React
+  test/         giả lập Web Audio, Canvas, rAF cho jsdom
+  App.tsx       giao diện
+docs/
+  ARCHITECTURE.md        trách nhiệm module, sở hữu tài nguyên, luồng hủy
+  MEMORY_AUDIT.md        đo rò rỉ bộ nhớ trong Chrome
+  PERFORMANCE_AUDIT.md   đo FPS với FFT 256/512
+  ORAL_DEFENSE.md        chuẩn bị vấn đáp
+  FINAL_VERIFICATION.md  kết quả kiểm tra cuối
+  evidence/              Lighthouse, ảnh chụp, số liệu đo gốc
+scripts/
+  generate-demo-audio.mjs   sinh file WAV demo
+  browser-audit.cjs         đo bộ nhớ/FPS bằng Chrome (cần cài tạm puppeteer-core)
+  heap-diff.cjs             so sánh 2 heap snapshot
+```
+
+Audit lỗi AI nằm ở `../AI_FAILURE_AUDIT.md`.
